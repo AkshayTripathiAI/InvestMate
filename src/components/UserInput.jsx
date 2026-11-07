@@ -1,53 +1,43 @@
-export default function UserInput({ onChange, userInput }) {
-    return (
-      <section id="user-input">
-        <div className="input-group">
-          <p>
-            <label>Initial Investment</label>
-            <input
-              type="number"
-              value={userInput.initialInvestment}
-              onChange={(event) =>
-                onChange("initialInvestment", event.target.value)
-              }
-              required
-            />
-          </p>
-          <p>
-            <label>Annual Investment</label>
-            <input
-              type="number"
-              value={userInput.annualInvestment}
-              required
-              onChange={(event) =>
-                onChange("annualInvestment", event.target.value)
-              }
-            />
-          </p>
+const FIELDS = [
+  [
+    { id: "initialInvestment", label: "Initial Investment ($)", step: "100" },
+    { id: "annualInvestment", label: "Annual Investment ($)", step: "100" },
+  ],
+  [
+    { id: "expectedReturn", label: "Expected Return (%)", step: "0.1" },
+    { id: "duration", label: "Duration (years)", step: "1" },
+  ],
+];
+
+export default function UserInput({ onChange, onReset, userInput }) {
+  return (
+    <section id="user-input">
+      {FIELDS.map((group, groupIndex) => (
+        <div className="input-group" key={groupIndex}>
+          {group.map((field) => (
+            <p key={field.id}>
+              <label htmlFor={field.id}>{field.label}</label>
+              <input
+                id={field.id}
+                type="number"
+                inputMode="decimal"
+                min="0"
+                step={field.step}
+                value={userInput[field.id]}
+                onChange={(event) => onChange(field.id, event.target.value)}
+                required
+              />
+            </p>
+          ))}
         </div>
-        <div className="input-group">
-          <p>
-            <label>Expected Return</label>
-            <input
-              type="number"
-              value={userInput.expectedReturn}
-              required
-              onChange={(event) => onChange("expectedReturn", event.target.value)}
-            />
-          </p>
-          <p>
-            <label>Duration</label>
-            <input
-              type="number"
-              value={userInput.duration}
-              required
-              onChange={(event) => onChange("duration", event.target.value)}
-            />
-          </p>
-        </div>
-      </section>
-    );
-  }
-  
-  //we need two way binding to get those input values
-  
+      ))}
+      <p className="reset-row">
+        <button type="button" onClick={onReset}>
+          Reset to example values
+        </button>
+      </p>
+    </section>
+  );
+}
+
+// Two-way binding: the inputs show the state and report every change back.
