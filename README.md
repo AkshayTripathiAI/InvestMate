@@ -1,5 +1,7 @@
 # InvestMate
 
+**Live demo:** https://akshaytripathiai.github.io/InvestMate/
+
 A React investment calculator that projects year-by-year growth from an initial investment, yearly contributions and an expected return rate.
 
 Built as a practice project while learning React.
